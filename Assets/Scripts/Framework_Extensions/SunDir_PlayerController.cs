@@ -51,4 +51,13 @@ public class SunDir_PlayerController : PlayerController {
             SDP.Fire1(value);
         }
     }
+
+    public override void Fire2(bool value)
+    {
+        SunDir_Pawn SDP = (SunDir_Pawn)PossesedPawn;
+        if (SDP)
+        {
+            SDP.Fire2(value);
+        }
+    }
 }

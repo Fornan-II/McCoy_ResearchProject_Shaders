@@ -5,6 +5,10 @@ using UnityEngine;
 public class SunDir_Pawn : Pawn {
 
     protected bool doFastSpeed = false;
+    protected bool respondToInput = true;
+
+    protected bool Fire2PreviouslyTrue = false;
+
     public float baseSpeed = 0.0f;
     public float fastSpeed = 0.0f;
     protected Vector3 rotation = Vector3.zero;
@@ -23,30 +27,53 @@ public class SunDir_Pawn : Pawn {
 
     public virtual void Horizontal(float value)
     {
-        if (doFastSpeed)
+        if (respondToInput)
         {
-            rotation.x = value * fastSpeed;
-        }
-        else
-        {
-            rotation.x = value * baseSpeed;
+            if (doFastSpeed)
+            {
+                rotation.x = value * fastSpeed;
+            }
+            else
+            {
+                rotation.x = value * baseSpeed;
+            }
         }
     }
 
     public virtual void Vertical(float value)
     {
-        if (doFastSpeed)
+        if (respondToInput)
         {
-            rotation.y = value * fastSpeed;
-        }
-        else
-        {
-            rotation.y = value * baseSpeed;
+            if (doFastSpeed)
+            {
+                rotation.y = value * fastSpeed;
+            }
+            else
+            {
+                rotation.y = value * baseSpeed;
+            }
         }
     }
 
     public virtual void Fire1(bool value)
     {
-        doFastSpeed = value;
+        if (respondToInput)
+        {
+            doFastSpeed = value;
+        }
+    }
+
+    public virtual void Fire2(bool value)
+    {
+        if(value && !Fire2PreviouslyTrue)
+        {
+            respondToInput = !respondToInput;
+            Fire2PreviouslyTrue = true;
+        }
+        
+        if(!value)
+        {
+            Fire2PreviouslyTrue = false;
+        }
     }
 }
