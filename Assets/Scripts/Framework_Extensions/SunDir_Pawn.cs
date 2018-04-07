@@ -6,17 +6,20 @@ public class SunDir_Pawn : Pawn {
 
     protected bool doFastSpeed = false;
     protected bool respondToInput = true;
-
     protected bool Fire2PreviouslyTrue = false;
+
+    protected Transform _camera;
+    protected Vector3 rotation = Vector3.zero;
 
     public float baseSpeed = 0.0f;
     public float fastSpeed = 0.0f;
-    protected Vector3 rotation = Vector3.zero;
+
+    public Demonstration_Object demoObject;
 
     // Use this for initialization
     protected void Start()
     {
-
+        _camera = FindObjectOfType<Camera>().transform;
     }
 
     // Update is called once per frame
@@ -57,9 +60,19 @@ public class SunDir_Pawn : Pawn {
 
     public virtual void Fire1(bool value)
     {
-        if (respondToInput)
+        if(demoObject && value)
         {
-            doFastSpeed = value;
+            RaycastHit hitInfo;
+            Ray mouseVector = Camera.main.ScreenPointToRay(Input.mousePosition);
+            Physics.Raycast(mouseVector, out hitInfo, 100.0f);
+
+            if(hitInfo.collider)
+            {
+                if(hitInfo.collider.CompareTag("Selectable"))
+                {
+                    demoObject.SetMaterial(hitInfo.collider.GetComponent<MeshRenderer>().material);
+                }
+            }
         }
     }
 
@@ -74,6 +87,14 @@ public class SunDir_Pawn : Pawn {
         if(!value)
         {
             Fire2PreviouslyTrue = false;
+        }
+    }
+
+    public virtual void Fire3(bool value)
+    {
+        if (respondToInput)
+        {
+            doFastSpeed = value;
         }
     }
 }
