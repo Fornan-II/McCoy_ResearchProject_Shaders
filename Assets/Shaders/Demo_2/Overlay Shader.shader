@@ -1,7 +1,8 @@
 ﻿Shader "Custom/Overlay Shader" {
-	Properties {
-		_Color ("Color", Color) = (1,1,1,1)
-		_MainTex ("Albedo (RGB)", 2D) = "white" {}
+	Properties{
+		_MainTex("Body Texture", 2D) = "white" {}
+		_SecondTex("Overlay Texture", 2D) = "green" {}
+		_GrassSpread("Grass Spread", Range(-1, 1)) = 0.5
 		_Glossiness ("Smoothness", Range(0,1)) = 0.5
 		_Metallic ("Metallic", Range(0,1)) = 0.0
 	}
@@ -17,14 +18,17 @@
 		#pragma target 3.0
 
 		sampler2D _MainTex;
+		sampler2D _SecondTex;
 
 		struct Input {
 			float2 uv_MainTex;
+			float3 worldPos;
+			float3 worldNormal;
 		};
 
 		half _Glossiness;
 		half _Metallic;
-		fixed4 _Color;
+		half _GrassSpread;
 
 		// Add instancing support for this shader. You need to check 'Enable Instancing' on materials that use the shader.
 		// See https://docs.unity3d.com/Manual/GPUInstancing.html for more information about instancing.
@@ -34,13 +38,27 @@
 		UNITY_INSTANCING_BUFFER_END(Props)
 
 		void surf (Input IN, inout SurfaceOutputStandard o) {
-			// Albedo comes from a texture tinted by color
-			fixed4 c = tex2D (_MainTex, IN.uv_MainTex) * _Color;
-			o.Albedo = c.rgb;
+			float3 x = tex2D(_MainTex, IN.worldPos.zy);
+			float3 y = tex2D(_MainTex, IN.worldPos.zx);
+			float3 z = tex2D(_MainTex, IN.worldPos.xy);
+
+			if (dot(o.Normal, IN.worldNormal.y >= _GrassSpread))
+			{
+				x = tex2D(_SecondTex, IN.worldPos.zy);
+				y = tex2D(_SecondTex, IN.worldPos.zx);
+				z = tex2D(_SecondTex, IN.worldPos.xy);
+			}
+
+			float3 blendNormal = saturate(pow(IN.worldNormal * 1.4, 4));
+			float3 blendedTex = z;
+			blendedTex = lerp(blendedTex, x, blendNormal.x);
+			blendedTex = lerp(blendedTex, y, blendNormal.y);
+
+			o.Albedo = blendedTex;
+
 			// Metallic and smoothness come from slider variables
 			o.Metallic = _Metallic;
 			o.Smoothness = _Glossiness;
-			o.Alpha = c.a;
 		}
 		ENDCG
 	}
