@@ -9,56 +9,60 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1856430271878282}
+  m_RootGameObject: {fileID: 1397047753690110}
   m_IsPrefabParent: 1
---- !u!1 &1856430271878282
+--- !u!1 &1397047753690110
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4858042543105228}
-  - component: {fileID: 114821715193062852}
+  - component: {fileID: 4160288638105778}
+  - component: {fileID: 114580926442680044}
+  - component: {fileID: 114111697531506396}
   m_Layer: 0
-  m_Name: Player
+  m_Name: InputPoller
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4858042543105228
+--- !u!4 &4160288638105778
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1856430271878282}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_GameObject: {fileID: 1397047753690110}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114821715193062852
+--- !u!114 &114111697531506396
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1856430271878282}
+  m_GameObject: {fileID: 1397047753690110}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dcfd530eb6a93ca48b51ac656d6fb47c, type: 3}
+  m_Script: {fileID: 11500000, guid: a85a6ab321c5e2349a5dac4f4c8c6d6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsAI: 0
-  IsHuman: 0
-  doRequestSpawn: 1
-  StartWithSpectator: 0
-  SpawnPreFab: {fileID: 1286445627909952, guid: ec581c182378a264a8b8bbcbe699d253,
+  SpawnPointPrefab: {fileID: 1168014549808748, guid: 8f1db655502ccd14184a3078094cdb06,
     type: 2}
-  SpectatorPreFab: {fileID: 0}
-  InputPlayerNumber: 0
-  PlayerNumber: 1
-  PlayerType: 1
-  HUD: {fileID: 0}
+  UseRandomSpawnPoint: 0
+--- !u!114 &114580926442680044
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1397047753690110}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee29aeb3e37368f49a69eef0a1c7cda7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
