@@ -1,6 +1,4 @@
-﻿// Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
-
-// Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
+﻿//NOTE: The nature of this shader requires you to set your transform scales reasonably. Scaling up makes the effect negligible.
 
 Shader "Demo1/Lit_Shadows_Extra"
 {
@@ -9,7 +7,7 @@ Shader "Demo1/Lit_Shadows_Extra"
 		_Color("Main Color", Color) = (1,1,1,1)
 		[NoScaleOffset] _MainTex("Texture", 2D) = "white" {}
 		_RimTint("Rim Color", Color) = (0, 0, 0, 0)
-		_RimIntensity("Rim Intensity", range(0,10)) = 1
+		_RimIntensity("Rim Intensity", range(0,3)) = 1
 	}
 	SubShader
 	{
@@ -70,7 +68,7 @@ Shader "Demo1/Lit_Shadows_Extra"
 				float3 viewDirection = normalize(_WorldSpaceCameraPos - i.posWorld);	//This is new
 				half rim = 1.0 - saturate(dot(viewDirection, i.normal));				//This is new
 				
-				col += rim * _RimTint * _RimIntensity;
+				col += _RimTint * _RimIntensity * smoothstep( 0.0 , 1.0 , rim * _RimIntensity ) ;	//This is new
 
 				return col;
 			}
