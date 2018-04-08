@@ -41,7 +41,15 @@
 			v2f vert (appdata_base v)
 			{
 				v2f o;
+				float3 wpos = mul(unity_ObjectToWorld, v.vertex).xyz;
+				float x = sin(wpos.x / _Rigidness + (_Time.x * _Speed)) * (v.vertex.y - _YOffset) * 5;
+				float z = sin(wpos.z / _Rigidness + (_Time.x * _Speed)) * (v.vertex.y - _YOffset) * 5;
+
+				v.vertex.x += step(0, v.vertex.y - _YOffset) * x *_SwayMax;	//Apply movement above _YOffset
+				v.vertex.z += step(0, v.vertex.y - _YOffset) * z *_SwayMax;
+
 				o.pos = UnityObjectToClipPos(v.vertex);
+
 				o.uv = v.texcoord;
 				half3 worldNormal = UnityObjectToWorldNormal(v.normal);
 				half nl = max(0, dot(worldNormal, _WorldSpaceLightPos0.xyz));
@@ -54,7 +62,6 @@
 				return o;
 			}
 
-			fixed4 _Color;
 			sampler2D _MainTex;
 			
 			fixed4 frag (v2f i) : SV_Target
@@ -63,7 +70,7 @@
 				fixed shadow = SHADOW_ATTENUATION(i);
 				fixed3 lighting = i.diff * shadow + i.ambient;
 				
-				col.rgb *= _Color * lighting;
+				col.rgb *= lighting;
 				
 				return col;
 			}
