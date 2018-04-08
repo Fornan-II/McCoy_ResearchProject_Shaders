@@ -351,7 +351,7 @@ Mesh:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: pb_Mesh-85140
+  m_Name: pb_Mesh11340
   serializedVersion: 8
   m_SubMeshes:
   - serializedVersion: 2
@@ -2299,7 +2299,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 55296d1b6ee54e14e8eb4648d4b448ee, type: 2}
+  - {fileID: 2100000, guid: 065a3ab6bbc00f54b9c29d506ceca443, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2337,10 +2337,10 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2095331727}
-  m_LocalRotation: {x: 0.112825036, y: -0.11773698, z: -0.41855496, w: -0.8934317}
-  m_LocalPosition: {x: -5.2187886, y: 1.0514822, z: 5.682361}
+  m_LocalRotation: {x: 0.28452644, y: -0.057945546, z: -0.48915344, w: 0.82244503}
+  m_LocalPosition: {x: -5.967479, y: 1.0439216, z: -1.233021}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 7
-  m_LocalEulerAnglesHint: {x: -162.533, y: -533.019, z: 229.131}
+  m_LocalEulerAnglesHint: {x: -204.288, y: -204.202, z: 113.231995}

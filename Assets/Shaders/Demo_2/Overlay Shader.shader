@@ -1,4 +1,4 @@
-﻿Shader "Custom/Overlay Shader" {
+﻿Shader "Demo2/Overlay Shader" {
 	Properties{
 		_MainTex("Body Texture", 2D) = "white" {}
 		_SecondTex("Overlay Texture", 2D) = "green" {}
