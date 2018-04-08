@@ -4,7 +4,7 @@
 	{
 		_Color("Main Color", Color) = (1,1,1,1)
 		[NoScaleOffset] _MainTex("Texture", 2D) = "white" {}
-		_ApplyAmbient("Apply Ambient Lighting", float) = 1
+		_AmbientAmount("Ambient Lighting Percent", range(0,1)) = 1
 	}
 		SubShader
 	{
@@ -28,7 +28,7 @@
 				float4 vertex : SV_POSITION;
 			};
 			
-			float _ApplyAmbient; //Not important, I added this for demonstartion purposes.
+			float _AmbientAmount; //Not important, I added this mainly for demonstration purposes.
 
 			//appdata_base is a position, normal, and one texture coordinate.
 			//this is found in "UnityCG.cginc"
@@ -50,10 +50,7 @@
 
 				//Apply illumination from ambient or light probes.
 				//ShadeSH9 is a function from "UnityCG.cginc"
-				if (_ApplyAmbient)
-				{
-					o.diff.rgb += ShadeSH9(half4(worldNormal, 1));
-				}
+				o.diff.rgb += _AmbientAmount * ShadeSH9(half4(worldNormal, 1));
 
 				return o;
 			}
