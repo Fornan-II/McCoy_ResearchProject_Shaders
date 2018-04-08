@@ -1,11 +1,15 @@
-﻿Shader "Demo1/Lit_Shadows_Extra"
+﻿// Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
+
+// Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
+
+Shader "Demo1/Lit_Shadows_Extra"
 {
 	Properties
 	{
 		_Color("Main Color", Color) = (1,1,1,1)
 		[NoScaleOffset] _MainTex("Texture", 2D) = "white" {}
 		_RimTint("Rim Color", Color) = (0, 0, 0, 0)
-		_RimIntensity("Rim Intensity", range(0,5)) = 1
+		_RimIntensity("Rim Intensity", range(0,10)) = 1
 	}
 	SubShader
 	{
@@ -21,13 +25,15 @@
 			#pragma fragment frag
 			#include "UnityCG.cginc"
 			#include "Lighting.cginc"
-			#pragma multi_compile_fwdbase nolightmap nodirlightmap nodynlightmap novertexlight	//Unity compiles multiple shaders variants, w/ and w/o shadows. Extra parameters tell Unity to NOT compile the shaders for various lightmaps.
+			#pragma multi_compile_fwdbase nolightmap nodirlightmap nodynlightmap novertexlight
 			#include "AutoLight.cginc"
 
 			struct v2f
 			{
 				float2 uv : TEXCOORD0;
 				SHADOW_COORDS(1)
+				float4 posWorld : TEXCOORD2;											//This is new
+				float3 normal : NORMAL;													//This is new
 				fixed3 diff : COLOR0;
 				fixed3 ambient : COLOR1;
 				float4 pos : SV_POSITION;
@@ -37,6 +43,8 @@
 			{
 				v2f o;
 				o.pos = UnityObjectToClipPos(v.vertex);
+				o.posWorld = mul(unity_ObjectToWorld, v.vertex);						//This is new
+				o.normal = mul(float4(v.normal, 0.0), unity_ObjectToWorld);				//This is new
 				o.uv = v.texcoord;
 				half3 worldNormal = UnityObjectToWorldNormal(v.normal);
 				half nl = max(0, dot(worldNormal, _WorldSpaceLightPos0.xyz));
@@ -49,17 +57,20 @@
 
 			fixed4 _Color;
 			sampler2D _MainTex;
+			fixed4 _RimTint;
+			float _RimIntensity;
 
 			fixed4 frag(v2f i) : SV_Target
 			{
 				fixed4 col = tex2D(_MainTex, i.uv);
-				//compute shadow attenuation (1.0 = fully lit, 0.0 fully shadowed)
 				fixed shadow = SHADOW_ATTENUATION(i);
-
-				//darken light's illumination with shadow, without affecting ambient light.
 				fixed3 lighting = i.diff * shadow + i.ambient;
-
 				col.rgb *= _Color * lighting;
+
+				float3 viewDirection = normalize(_WorldSpaceCameraPos - i.posWorld);	//This is new
+				half rim = 1.0 - saturate(dot(viewDirection, i.normal));				//This is new
+				
+				col += rim * _RimTint * _RimIntensity;
 
 				return col;
 			}
