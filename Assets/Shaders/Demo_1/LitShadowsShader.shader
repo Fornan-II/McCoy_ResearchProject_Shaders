@@ -9,7 +9,7 @@
 	{
 		Pass
 		{
-			Name "LightingPass"	//Declaring a name for a pass is not necessary, but useful. Will return to this later.
+			Name "LightingPass"
 			Tags {"LightMode" = "ForwardBase"}
 
 			CGPROGRAM
@@ -69,7 +69,7 @@
 		//Second pass to allow object to cast and recieve shadows. A "shadow pass".
 		Pass
 		{
-			Name "ShadowCaster"
+			Name "ShadowCaster" //Declaring a name for a pass is not necessary, but useful. Will return to this later.
 			Tags{ "LightMode" = "ShadowCaster" }
 
 			CGPROGRAM
