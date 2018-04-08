@@ -33,6 +33,7 @@ public class FPS_Pawn : Pawn {
 
     protected bool _doExamine = false;
     protected bool _isCrouching = false;
+    protected bool _mouseLocked = false;
 
     protected float _forwardVelocity = 0.0f;
     protected float _strafeVelocity = 0.0f;
@@ -205,10 +206,13 @@ public class FPS_Pawn : Pawn {
     #region Mouselook
     protected virtual void HandleLookRotation()
     {
-        _desiredBodyRotation *= Quaternion.Euler(0.0f, _inputYRotation, 0.0f);
-        _desiredCameraRotation *= Quaternion.Euler(-_inputXRotation, 0.0f, 0.0f);
+        if (_mouseLocked)
+        {
+            _desiredBodyRotation *= Quaternion.Euler(0.0f, _inputYRotation, 0.0f);
+            _desiredCameraRotation *= Quaternion.Euler(-_inputXRotation, 0.0f, 0.0f);
 
-        _desiredCameraRotation = ClampRotationAroundX(_desiredCameraRotation);
+            _desiredCameraRotation = ClampRotationAroundX(_desiredCameraRotation);
+        }
 
         transform.localRotation = _desiredBodyRotation;
         head.transform.localRotation = _desiredCameraRotation;
@@ -240,6 +244,8 @@ public class FPS_Pawn : Pawn {
 
     public virtual void SetCursorLock(bool newLockState)
     {
+        _mouseLocked = newLockState;
+
         if(newLockState)
         {
             Cursor.lockState = CursorLockMode.Locked;
