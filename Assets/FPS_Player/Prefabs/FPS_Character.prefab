@@ -38,6 +38,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4975329439900894}
   - component: {fileID: 114954429114757594}
+  - component: {fileID: 114965722372409962}
   m_Layer: 8
   m_Name: FPS_Character
   m_TagString: Untagged
@@ -297,6 +298,19 @@ MonoBehaviour:
   look_minVerticalRotation: -90
   interactRange: 2
   crouchSpeed: 5
+--- !u!114 &114965722372409962
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1286445627909952}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62f3708a60cc93e4293a65a784050d59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  YKillLevel: -128
+  resetPoint: {fileID: 0}
 --- !u!124 &124277855601861912
 Behaviour:
   m_ObjectHideFlags: 1
