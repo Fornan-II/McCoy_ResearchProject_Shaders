@@ -2,13 +2,19 @@
 {
 	Properties
 	{
-		_Color("Main Color", Color) = (1,1,1,1)
-		[NoScaleOffset] _MainTex("Texture", 2D) = "white" {}
-		_WaveSpeed("Wave Speed",Range(0,10)) = 1
-		_WaveAmount("Wave Amount", Range(0, 10)) = 1
+		_Tint("Tint", Color) = (1, 1, 1, .5)
+		_MainTex("Main Texture", 2D) = "white" {}
+		_NoiseTex("Extra Wave Noise", 2D) = "white" {}
+		_Speed("Wave Speed", Range(0,1)) = 0.5
+		_Amount("Wave Amount", Range(0,1)) = 0.5
+		_Height("Wave Height", Range(0,1)) = 0.5
+		_Foam("Foamline Thickness", Range(0,3)) = 0.5
 	}
 	SubShader
 	{
+		Tags { "RenderType" = "Opaque" "Queue" = "Transparent" }
+		Blend SrcAlpha OneMinusSrcAlpha
+
 		Pass
 		{
 			Name "LightingPass"
@@ -30,13 +36,26 @@
 				fixed3 diff : COLOR0;
 				fixed3 ambient : COLOR1;
 				float4 pos : SV_POSITION;
+				float4 scrPos : TEXCOORD1;
 			};
-
+			
+			float4 _Tint;
+			uniform sampler2D _CameraDepthTexture;
+			sampler2D _MainTex, _NoiseTex;
+			float4 _MainTex_ST;
+			float _Speed, _Amount, _Height, _Foam;
+			
 			v2f vert (appdata_base v)
 			{
 				v2f o;
+
+				float4 tex = tex2Dlod(_NoiseTex, float4(v.texcoord.xy, 0, 0));
+				v.vertex.y += sin(_Time.z * _Speed + (v.vertex.x * v.vertex.z * _Amount * tex)) * _Height;
+
 				o.pos = UnityObjectToClipPos(v.vertex);
-				o.uv = v.texcoord;
+				o.uv = TRANSFORM_TEX(v.texcoord, _MainTex);
+				o.scrPos = ComputeScreenPos(o.pos);
+
 				half3 worldNormal = UnityObjectToWorldNormal(v.normal);
 				half nl = max(0, dot(worldNormal, _WorldSpaceLightPos0.xyz));
 				o.diff = nl * _LightColor0;
@@ -46,17 +65,20 @@
 
 				return o;
 			}
-
-			fixed4 _Color;
-			sampler2D _MainTex;
 			
 			fixed4 frag (v2f i) : SV_Target
 			{
-				fixed4 col = tex2D(_MainTex, i.uv);
+				half4 col = tex2D(_MainTex, i.uv) * _Tint;
+
+				half depth = LinearEyeDepth(SAMPLE_DEPTH_TEXTURE_PROJ(_CameraDepthTexture, UNITY_PROJ_COORD(i.scrPos)));
+				
+				half4 foamLine = 1 - saturate(_Foam * (depth - i.scrPos.w));
+				col += foamLine * _Tint;
+
 				fixed shadow = SHADOW_ATTENUATION(i);
 				fixed3 lighting = i.diff * shadow + i.ambient;
 				
-				col.rgb *= _Color * lighting;
+				col.rgb *= lighting;
 				
 				return col;
 			}
