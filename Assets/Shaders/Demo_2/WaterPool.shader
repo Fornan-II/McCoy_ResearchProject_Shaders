@@ -5,10 +5,10 @@
 		_Tint("Tint", Color) = (1, 1, 1, .5)
 		_MainTex("Main Texture", 2D) = "white" {}
 		_NoiseTex("Extra Wave Noise", 2D) = "white" {}
-		_Speed("Wave Speed", Range(0,1)) = 0.5
-		_Amount("Wave Amount", Range(0,1)) = 0.5
-		_Height("Wave Height", Range(0,1)) = 0.5
-		_Foam("Foamline Thickness", Range(0,3)) = 0.5
+		_Speed("Wave Speed", float) = 0.5	//I made these into floats so that I could set silly numbers and see what happens.
+		_Amount("Wave Amount", float) = 0.5
+		_Height("Wave Height", float) = 0.5
+		_Foam("Foamline Thickness", float) = 0.5
 	}
 	SubShader
 	{
@@ -68,7 +68,8 @@
 			
 			fixed4 frag (v2f i) : SV_Target
 			{
-				half4 col = tex2D(_MainTex, i.uv) * _Tint;
+				half4 col = tex2D(_MainTex, i.uv);
+				col.a *= _Tint.a;
 
 				half depth = LinearEyeDepth(SAMPLE_DEPTH_TEXTURE_PROJ(_CameraDepthTexture, UNITY_PROJ_COORD(i.scrPos)));
 				

@@ -309,7 +309,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62f3708a60cc93e4293a65a784050d59, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  YKillLevel: -128
+  YKillLevel: -10
   resetPoint: {fileID: 0}
 --- !u!124 &124277855601861912
 Behaviour:
