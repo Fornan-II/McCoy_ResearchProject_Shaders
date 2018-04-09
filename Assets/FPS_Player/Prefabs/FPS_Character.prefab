@@ -289,6 +289,7 @@ MonoBehaviour:
   zoomedFOV: 30
   zoomSpeed: 3
   moveSpeed: 3.5
+  sprintMultiplier: 2
   head: {fileID: 1330231263068620}
   handDominant: {fileID: 114404318855027572}
   handSubordinate: {fileID: 114426674438448680}
@@ -309,7 +310,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62f3708a60cc93e4293a65a784050d59, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  YKillLevel: -10
+  YKillLevel: -10.5
   resetPoint: {fileID: 0}
 --- !u!124 &124277855601861912
 Behaviour:

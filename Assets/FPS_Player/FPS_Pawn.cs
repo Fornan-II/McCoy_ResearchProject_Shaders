@@ -11,6 +11,7 @@ public class FPS_Pawn : Pawn {
     public float zoomSpeed;
 
     public float moveSpeed = 1.0f;
+    public float sprintMultiplier = 2.0f;
 
     public GameObject head;
     public Socket handDominant;
@@ -35,6 +36,7 @@ public class FPS_Pawn : Pawn {
     protected bool _isCrouching = false;
     protected bool _mouseLocked = false;
 
+    protected float _speedMultiplier = 1.0f;
     protected float _forwardVelocity = 0.0f;
     protected float _strafeVelocity = 0.0f;
     protected float _playerHeight;
@@ -153,7 +155,8 @@ public class FPS_Pawn : Pawn {
     //Interacts with the object the player is looking at in the world
     public virtual void Fire4(bool value)
     {
-        if(value)
+        //Leaving commented in case I want to use item code for some reason.
+        /*if(value)
         {
             GameObject highlighted = GetInteractableObject();
             if (highlighted)
@@ -172,6 +175,14 @@ public class FPS_Pawn : Pawn {
             {
                 Equip(null);
             }
+        }*/
+        if(value)
+        {
+            _speedMultiplier = sprintMultiplier;
+        }
+        else
+        {
+            _speedMultiplier = 1.0f;
         }
     }
     #endregion
@@ -181,7 +192,7 @@ public class FPS_Pawn : Pawn {
     {
         Vector3 moveVelocity = new Vector3(0.0f, 0.0f, 0.0f);
         moveVelocity += transform.forward * _forwardVelocity + transform.right * _strafeVelocity;
-        moveVelocity *= moveSpeed;
+        moveVelocity *= moveSpeed * _speedMultiplier;
         moveVelocity.y += _rb.velocity.y;
 
         return moveVelocity;
