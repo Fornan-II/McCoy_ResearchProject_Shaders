@@ -1,6 +1,4 @@
-﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
-
-Shader "Demo1/Unlit Texture"
+﻿Shader "Demo1/Unlit Texture"
 {
 	Properties
 	{

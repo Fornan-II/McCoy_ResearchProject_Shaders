@@ -18,7 +18,8 @@
 			#pragma fragment frag
 			#include "UnityCG.cginc"
 			#include "Lighting.cginc"
-			#pragma multi_compile_fwdbase nolightmap nodirlightmap nodynlightmap novertexlight	//Unity compiles multiple shaders variants, w/ and w/o shadows. Extra parameters tell Unity to NOT compile the shaders for various lightmaps.
+			//Unity compiles multiple shaders variants, w/ and w/o shadows. Extra parameters tell Unity to NOT compile the shaders for various lightmaps.
+			#pragma multi_compile_fwdbase nolightmap nodirlightmap nodynlightmap novertexlight
 			#include "AutoLight.cginc"
 			
 			struct v2f
@@ -39,7 +40,7 @@
 				half nl = max(0, dot(worldNormal, _WorldSpaceLightPos0.xyz));
 				o.diff = nl * _LightColor0;
 				
-				//Code that starts to look different from basic Lit shader. Slightly different way of applying illumination from ambient or light probes. Important in this particular frag shader implementation.
+				//Code that starts to look different from basic Lit shader. Different way of applying illumination from ambient or light probes. Important in this frag shader implementation.
 				o.ambient = ShadeSH9(half4(worldNormal, 1));
 				//compute shadows data
 				TRANSFER_SHADOW(o)
