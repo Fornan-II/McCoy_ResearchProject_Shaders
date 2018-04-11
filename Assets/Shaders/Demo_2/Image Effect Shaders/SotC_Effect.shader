@@ -1,8 +1,9 @@
-﻿Shader "Demo3/SotC_Effect"
+﻿Shader "ImageEffect/SotC_Effect"
 {
 	Properties
 	{
-		_MainTex ("Texture", 2D) = "white" {}
+		_MainTex("Texture", 2D) = "white" {}
+		_Color("Tint", COLOR) = (1,1,1,1)
 	}
 	SubShader
 	{
@@ -38,13 +39,12 @@
 			}
 			
 			sampler2D _MainTex;
+			fixed4 _Color;
 
 			fixed4 frag (v2f i) : SV_Target
 			{
 				fixed4 col = tex2D(_MainTex, i.uv);
-				// just invert the colors
-				//col.rgb = (sin(_Time.z) / 2 + 1) * col.rgb;
-				col.rgb = lerp(col.rgb, 1 - col.rgb, sin(_Time.z));
+				col.rgb *= _Color.rgb;
 				return col;
 			}
 			ENDCG
