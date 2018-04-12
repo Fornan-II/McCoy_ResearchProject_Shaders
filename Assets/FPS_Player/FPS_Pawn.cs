@@ -112,7 +112,15 @@ public class FPS_Pawn : Pawn {
         {
             SetCursorLock(true);
 
-            handDominant.UseItem(this);
+            GameObject highlighted = GetInteractableObject();
+            if (highlighted)
+            {
+                Interactable other = highlighted.GetComponentInChildren<Interactable>();
+                if (other)
+                {
+                    other.InteractWith(this, controller);
+                }
+            }
         }
     }
 
@@ -155,27 +163,6 @@ public class FPS_Pawn : Pawn {
     //Interacts with the object the player is looking at in the world
     public virtual void Fire4(bool value)
     {
-        //Leaving commented in case I want to use item code for some reason.
-        /*if(value)
-        {
-            GameObject highlighted = GetInteractableObject();
-            if (highlighted)
-            {
-                Interactable other = highlighted.GetComponentInChildren<Interactable>();
-                if (other)
-                {
-                    other.InteractWith(this, controller);
-                }
-                else
-                {
-                    Equip(null);
-                }
-            }
-            else
-            {
-                Equip(null);
-            }
-        }*/
         if(value)
         {
             _speedMultiplier = sprintMultiplier;
